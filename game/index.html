@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nusa Seaplane — Island Medicine Run</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.min.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="game-root"></div>
+
+<!-- Flight HUD: lit instruments, always on top of the 3D view -->
+<div id="hud" class="hidden">
+  <div class="hud-panel" id="panel-flight">
+    <div class="hud-row"><span class="hud-label">ALT</span><span class="hud-value" id="hud-alt">0</span><span class="hud-unit">FT</span></div>
+    <div class="hud-row"><span class="hud-label">SPD</span><span class="hud-value" id="hud-spd">0</span><span class="hud-unit">KT</span></div>
+    <div class="hud-row"><span class="hud-label">HDG</span><span class="hud-value" id="hud-hdg">000°</span></div>
+    <div class="hud-row"><span class="hud-label">V/S</span><span class="hud-value" id="hud-vs">+0</span><span class="hud-unit">FT/M</span></div>
+  </div>
+
+  <div class="hud-panel" id="panel-compass">
+    <canvas id="compass" width="360" height="34"></canvas>
+    <canvas id="attitude" width="120" height="120"></canvas>
+  </div>
+
+  <div class="hud-panel" id="panel-mission">
+    <div class="hud-row"><span class="hud-label">SCORE</span><span class="hud-value" id="hud-score">0</span></div>
+    <div class="hud-row"><span class="hud-label">DELIVERY</span><span class="hud-value" id="hud-delivery">0/3</span></div>
+    <div class="hud-row"><span class="hud-label">FUEL</span>
+      <span class="hud-bar"><span id="hud-fuel-fill"></span></span>
+    </div>
+    <div class="hud-row"><span class="hud-label">DAMAGE</span>
+      <span class="hud-bar"><span id="hud-damage-fill"></span></span>
+    </div>
+  </div>
+
+  <div id="throttle-gauge">
+    <div class="hud-label">THR</div>
+    <div class="throttle-track"><span id="throttle-fill"></span></div>
+    <div class="hud-value" id="hud-thr">0%</div>
+  </div>
+
+  <div id="message-line"></div>
+  <div id="banner" class="hidden"></div>
+</div>
+
+<!-- Title / menu screen -->
+<div id="menu" class="screen">
+  <div class="screen-card">
+    <h1>NUSA SEAPLANE</h1>
+    <h2>Island Medicine Run</h2>
+    <p class="brief">Dawn over the islands. Three clinics are waiting for medicine.
+      Take off from the water, fly the golden rings, and land gently at each
+      clinic dock. Low flying pays — but the sea is patient and the islands are not.</p>
+    <div class="controls-grid">
+      <div><kbd>W</kbd>/<kbd>S</kbd> throttle</div>
+      <div><kbd>↑</kbd>/<kbd>↓</kbd> climb / descend</div>
+      <div><kbd>←</kbd>/<kbd>→</kbd> bank &amp; turn</div>
+      <div><kbd>A</kbd>/<kbd>D</kbd> rudder</div>
+      <div><kbd>Space</kbd> water brake</div>
+      <div><kbd>R</kbd> back to last dock</div>
+      <div><kbd>P</kbd> pause</div>
+      <div><kbd>M</kbd> sound on/off</div>
+    </div>
+    <button id="btn-start" type="button">START ENGINE — FLY THE RUN</button>
+    <p class="hint">Keyboard + mouse. Best in desktop Chrome. No downloads, no sign-in.</p>
+  </div>
+</div>
+
+<!-- End screens -->
+<div id="end" class="screen hidden">
+  <div class="screen-card">
+    <h1 id="end-title">MISSION COMPLETE</h1>
+    <p id="end-text" class="brief"></p>
+    <div id="end-stats" class="stats"></div>
+    <button id="btn-restart" type="button">FLY AGAIN</button>
+  </div>
+</div>
+
+<div id="pause" class="screen hidden">
+  <div class="screen-card">
+    <h1>PAUSED</h1>
+    <p class="brief">Press <kbd>P</kbd> or click below to keep flying.</p>
+    <button id="btn-resume" type="button">RESUME</button>
+  </div>
+</div>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
